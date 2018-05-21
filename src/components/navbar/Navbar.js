@@ -3,7 +3,6 @@ import React, { Component} from 'react';
 // import styles from './Navbar.css';
 import { Menu } from 'semantic-ui-react'; 
 // import { Link } from 'react-router-dom';
-
 class Navbar extends Component {
   // constructor(props) {
   //   super(props);
@@ -22,7 +21,7 @@ class Navbar extends Component {
 
   render() {
     // const { activeItem } = this.state;
-    console.log(this.props);
+    // console.log(this.props);
     const activeItem = this.props.location.pathname.slice(1);
     return (
       <div>
