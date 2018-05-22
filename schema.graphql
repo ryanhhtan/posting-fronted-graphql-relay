@@ -1,0 +1,130 @@
+type Comment {
+  id: ID!
+  author: User
+  body: String
+  comment_on: ID
+  sub_comments(first: Int, after: String, order: String): CommentConnection
+  created_at: String
+  updated_at: String
+}
+
+type CommentConnection {
+  edges: [CommentEdge]!
+  pageInfo: PageInfo!
+}
+
+type CommentEdge {
+  cursor: String!
+  node: Comment
+}
+
+input CommentInput {
+  body: String!
+}
+
+type Credential {
+  user: User
+  token: String
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+type Mutation {
+  createComment(comment_on: ID!, comment: CommentInput!): Comment
+  updateComment(id: ID!, comment: CommentInput!): Comment
+  deleteComment(onId: ID!): Boolean
+  createPost(post: PostInput!): Post
+  updatePost(id: ID!, post: PostInput!): Post
+  deletePost(id: ID!): Post
+  createTag(tag: TagInput!): Tag
+  updateTag(id: ID!, tag: TagInput!): Tag
+  deleteTag(id: ID!): Tag
+  register(user: UserInput!): Credential
+  login(user: LoginInput!): Credential
+}
+
+type Name {
+  first: String
+  last: String
+}
+
+input NameInput {
+  first: String
+  last: String
+}
+
+type PageInfo {
+  hasNextPage: Boolean
+  endCursor: String
+}
+
+type Post {
+  id: ID!
+  title: String
+  body: String
+  feature_image_url: String
+  author: User
+  tags: [Tag]
+  created_at: String
+  updated_at: String
+  comments(first: Int, after: String, order: String): CommentConnection
+}
+
+type PostConnection {
+  edges: [PostEdge]!
+  pageInfo: PageInfo!
+}
+
+type PostEdge {
+  cursor: String!
+  node: Post
+}
+
+input PostInput {
+  title: String
+  body: String
+  feature_image_url: String
+  tags: [ID]
+}
+
+type Query {
+  comment(id: ID!): Comment
+  comments(on: ID!, first: Int, after: String, order: String): CommentConnection
+  post(id: ID!): Post
+  posts(first: Int, after: String, order: String): PostConnection
+  tags: [Tag]!
+  tag(id: ID!): Tag
+  mytags: [Tag]!
+  user(id: ID!): User
+  users(first: Int): [User]
+  me: User
+}
+
+type Tag {
+  id: ID!
+  name: String
+  owner: User
+}
+
+input TagInput {
+  name: String!
+}
+
+type User {
+  id: ID!
+  name: Name
+  email: String
+  avatar: String
+  mytags(first: Int, after: String): [Tag]
+}
+
+input UserInput {
+  name: NameInput
+  email: String
+  avatar: String
+  password: String
+}
+

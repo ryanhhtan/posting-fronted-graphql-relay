@@ -1,36 +1,29 @@
 import React, { Component} from 'react';
-// import PropTypes from 'prop-types';
-// import styles from './Navbar.css';
-import { Menu } from 'semantic-ui-react'; 
-// import { Link } from 'react-router-dom';
+import { Menu, Dropdown } from 'semantic-ui-react'; 
+import { withRouter } from 'react-router-dom';
+
 class Navbar extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     activeItem: 'home',
-  //   };
-  //   this.handleItemClick = this.handleItemClick.bind(this);
-  // }
-
-  // handleItemClick (e, { name }) {
-  //   // console.log(name);
-  //   this.setState({
-  //     activeItem: name
-  //   });
-  // }
-
   render() {
-    // const { activeItem } = this.state;
-    // console.log(this.props);
+    const { user, logout } = this.props;
+    // console.log(user);
+
     const activeItem = this.props.location.pathname.slice(1);
     return (
       <div>
         <Menu pointing secondary>
           <Menu.Item name='home' active={ activeItem === 'home' || activeItem === '' } href='/' />
           <Menu.Item name='about' active={ activeItem === 'about' } href='/about' />
-          <Menu.Item name='contact' active={ activeItem === 'contact' } href='contact' />
+          <Menu.Item name='contact' active={ activeItem === 'contact' } href='/contact' />
           <Menu.Menu position='right'>
-            <Menu.Item name='logout' />
+            { !user && <Menu.Item name='login' active={ activeItem === 'login' } href='/login'/> }
+            { !user && <Menu.Item name='register' active={ activeItem === 'register' } href='/register'/>}
+            { user && <Dropdown text={ `${user.name.first} ${user.name.last}` } className='link item'> 
+              <Dropdown.Menu>
+                <Dropdown.Item name='profile' href='/profile'>Profile</Dropdown.Item>
+                <Dropdown.Item name='logout' onClick={logout}>Logout</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+            }
           </Menu.Menu>
         </Menu>
       </div>
@@ -38,4 +31,4 @@ class Navbar extends Component {
   }
 }
 
-export default Navbar;
+export default withRouter(Navbar);
